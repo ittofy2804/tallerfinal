@@ -1,103 +1,90 @@
-Estructura de la Base de Datos en Firebase 
+# Estructura de la Base de Datos en Firebase
 
-Este documento describe la estructura de la base de datos NoSQL en FireBase para el prototipo del proyecto final usando la base de datos Steam creada anteriormente en el semestre.
-Su propósito es almacenar información a la base de datos Norelacional en FireBase.  
-Mientras que MySQL maneja datos estructurados (tablas, relaciones y llaves foráneas), Firebase permite almacenar rapidamente
-información, con un total de 10 registros para hacer una paginación sencilla, en el codigo de firePage.js esta limitado por 
-lo que nos llegan 4 datos de los 10 registros guardados en FB que seria la page 1.
+Este documento describe la estructura de la base de datos NoSQL utilizada en el proyecto.  
+La base se implementa en **Firebase Firestore** y cuenta con tres colecciones principales: `user`, `game` y `library`.  
+Cada una almacena datos de usuarios, juegos y las relaciones entre ellos (biblioteca de juegos adquiridos o jugados).
 
-node routes/firePage.js (Resultado de paginación para game cambiando el nombre de la coleccion en firePage.js mostrado en consola)
-
-1 {
-  gameName: 'Shadow Rebellion',
-  releaseDate: Timestamp { _seconds: 1557604145, _nanoseconds: 802000000 },
-  price: 49,
-  reviewScore: 8
-}
-10 {
-  gameName: 'impactoGey',
-  price: 10,
-  releaseDate: Timestamp { _seconds: 1763581153, _nanoseconds: 262000000 },
-}
-2 {
-  gameName: 'Fortnite',
-  price: 2,
-  releaseDate: Timestamp { _seconds: 1516356798, _nanoseconds: 935000000 },
-  reviewScore: 9
-}
-3 {
-  releaseDate: Timestamp { _seconds: 1466190825, _nanoseconds: 923000000 },
-  reviewScore: 9,
-  gameName: 'FIFA20',
-  price: 5
-}
-
+---
 node routes/firePage.js (Resultado de paginación para user cambiando el nombre de la coleccion en firePage.js mostrado en consola)
 
 1 {
-  username: 'alex_hunt',
-  userPassword: 'hunter123',
-  email: 'alex.hunt@mail.com',
-  cellphone: '5551000001'
+  cellphone: 3505498870,
+  email: 'ittofy28@mail.com',
+  userPassword: 'ittofyyyy',
+  username: 'ittofy28'
 }
 10 {
-  cellphone: '3206453784',
-  email: 'alenabu@mail.com',
-  userPassword: 'ALEJF837',
-  username: 'alenabu'
+  cellphone: 3138097232,
+  mail: 'makiiiii@mail.com',
+  UserPassword: 'soymaki',
+  userName: 'makistun\n'
 }
 2 {
-  cellphone: '3114636374',
-  email: 'maria_p@mail.com',
-  userPassword: 'auef234',
-  username: 'maria_playz'
+  cellphone: 3212235647,
+  email: 'electrifire@mail.com',
+  userPassword: 'caribeelector\n',
+  username: 'electrifire'
 }
 3 {
-  cellphone: '5551000101',
-  email: 'sofi.perez@example.com',
-  userPassword: 'Sofi.2021!',
-  username: 'sofiaperez'
+  cellphone: 3138097535,
+  email: 'juanchopizza@mail.com',
+  userPassword: 'pizzaaajuancho',
+  username: 'juanchopizza'
 }
 
----
-Distribución de datos en FireBase: Los atributos para cada colección con su documento.
-Colección: `user`
+## Colección: user
 
-Contiene la información de los usuarios registrados.
+Guarda la información de los usuarios registrados dentro de la aplicación.
 
-| Campo          | Tipo de dato  | Descripción                    | Registro guardado      |
-|----------------|---------------|--------------------------------|------------------------|
-| `username`     | string        | Nombre de usuario único        | `"alex_hunt"`          |
-| `userPassword` | string        | Contraseña del usuario         | `"hunter123"`          |
-| `email`        | string        | Correo electrónico del usuario | `"alex.hunt@mail.com"` |
-| `cellphone`    | string        | Número de teléfono del usuario | `"5551000001"`         |
+| Campo | Tipo de dato | Descripción | Ejemplo |
+|--------|---------------|--------------|----------|
+| `username` | string | Nombre de usuario único | `"it_tofy28"` |
+| `userPassword` | string | Contraseña del usuario (no cifrada en este caso) | `"ittofyyy"` |
+| `email` | string | Correo electrónico del usuario | `"ittofy28@mail.com"` |
+| `cellphone` | number | Número de teléfono o contacto | `3505498870` |
 
 ---
 
-Colección: `game`
+## Colección: game
 
-Contiene la información de los juegos.
+Contiene la información de los juegos disponibles en la base de datos.
 
-| Campo          | Tipo de dato | Descripción                           | Registro guardado                        |
-|----------------|--------------|---------------------------------------|------------------------------------------|
-| `gameName`     | string       | Nombre del juego                      | `"Shadow Rebellion"`                     |
-| `price`        | number       | Precio del juego en dólares           | `49`                                     |
-| `releaseDate`  | timestamp    | Fecha de lanzamiento del juego        | `11 de mayo de 2019, 2:49:05 p.m. UTC-5` |
-| `reviewScore`  | number       | Calificación promedio de los usuarios | `8`                                      |
+| Campo | Tipo de dato | Descripción | Ejemplo |
+|--------|--------------|--------------|----------|
+| `gameName` | string | Nombre del juego | `"GTA8"` |
+| `price` | number | Precio del juego en la moneda definida (ej. dólares o pesos) | `200` |
+| `releaseDate` | timestamp | Fecha de lanzamiento del juego | `15 de febrero de 2017, 5:07:00 p.m. UTC-5` |
+| `reviewScore` | number | Calificación o puntuación del juego | `6` |
 
 ---
 
-Colección: `library`
+## Colección: library
 
-Relaciona usuarios con los juegos que han adquirido o jugado.
+Relaciona a los usuarios con los juegos que poseen o han jugado.
 
-| Campo          | Tipo de dato | Descripción                             | Registro guardado                          |
-|----------------|--------------|-----------------------------------------|--------------------------------------------|
-| `username`     | string       | Usuario propietario del juego           | `"alex_hunt"`                              |
-| `idGame`       | number       | Identificador del juego                 | `5`                                        |
-| `hoursPlayed`  | number       | Horas jugadas                           | `120`                                      |
-| `purchaseDate` | timestamp    | Fecha de compra o adición a la librería | `12 de marzo de 2023, 2:45:36 p.m. UTC-5`  |
+| Campo | Tipo de dato | Descripción | Ejemplo |
+|--------|--------------|--------------|----------|
+| `username` | string | Usuario propietario del juego | `"ittofy28"` |
+| `idGame` | number | Identificador del juego (coincide con el ID del documento en la colección `game`) | `2` |
+| `hoursPlayed` | number | Horas jugadas por el usuario | `120` |
+| `purchaseDate` | timestamp | Fecha en la que el usuario adquirió o añadió el juego a su biblioteca | `13 de octubre de 2025, 2:02:30 p.m. UTC-5` |
 
+---
+
+## Relaciones entre colecciones
+
+- `library.username` → hace referencia al campo `user.username`  
+- `library.idGame` → corresponde al identificador del juego en la colección `game`
+
+---
+
+## Descripción general
+
+Esta estructura permite manejar de forma sencilla la relación **usuario ↔ juegos**, facilitando consultas como:
+
+- Listar los juegos que posee un usuario.  
+- Mostrar las horas jugadas por cada usuario.  
+- Consultar información del juego desde la biblioteca (`library`) usando el `idGame`.
 ---
 
 Relaciones entre colecciones
