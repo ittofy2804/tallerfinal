@@ -5,7 +5,7 @@ let lastDoc = null;
  
 async function getFirstPage() {
     const q = db.collection("user")
-        //.orderBy('idGame', 'desc')
+       
         .limit(2);
  
     const snap = await q.get();
@@ -19,7 +19,7 @@ async function getNextPage() {
     if (!lastDoc) { console.log('Primero llama getFirstPage()'); return; }
  
     const q = db.collection('user')
-        //.orderBy('idGame', 'desc')
+        
         .startAfter(lastDoc)
         .limit(2);
  
